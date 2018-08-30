@@ -12,8 +12,20 @@ public class BakersDozen extends JFrame {
 	//Serialization of recreation
 	private static final long serialVersionUID = 1L;
 
+	//Constructor
+	public BakersDozen() {
+		setTitle("Baker's Dozen");
+		setResizable(false);
+		pack();
+		setLocationRelativeTo(null);
+		setVisible(true);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 	}
+	
+	
 	
 }
