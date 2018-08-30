@@ -1,4 +1,4 @@
-package Aloysius.Lim.BakersDozen;
+package aloysius.lim.BakersDozen;
 
 public class Deck {
 /**

@@ -1,4 +1,4 @@
-package Aloysius.Lim.BakersDozen;
+package aloysius.lim.BakersDozen;
 
 import java.awt.Color;
 import java.awt.Font;
