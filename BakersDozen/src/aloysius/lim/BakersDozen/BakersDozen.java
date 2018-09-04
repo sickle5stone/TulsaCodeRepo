@@ -12,7 +12,7 @@ public class BakersDozen extends JFrame {
 /**
  * Author: Aloysius Lim
  * Date Created: 8-30-18
- * Last Updated: 8-30-18
+ * Last Updated: 9-4-18
  */
 	
 	//Serialization of recreation
@@ -44,16 +44,15 @@ public class BakersDozen extends JFrame {
 		try {			
 			String className = UIManager.getSystemLookAndFeelClassName();
 			UIManager.setLookAndFeel(className);
-			new BakersDozen();
-		}catch(Exception e){
-			EventQueue.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					new BakersDozen();
-				}
-			});
-		}
+		}catch(Exception e){}
+		
+		EventQueue.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				new BakersDozen();
+			}
+		});
 	}
 	
 	
