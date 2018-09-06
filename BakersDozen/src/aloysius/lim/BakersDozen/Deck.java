@@ -14,11 +14,11 @@ public class Deck {
 /**
  * Author: Aloysius Lim
  * Date Created: 8-28-18
- * Last Updated: 9-4-18
+ * Last Updated: 9-6-18
  */
 	
 	/**** SETTING CONSTANT ****/
-	private static final String[] RANKS = {"A","2","3","4","5","6","7","8","9","10","J","Q","K","A"};
+	private static final String[] RANKS = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
 	private static final String[] SUITSYMBOLS = {"\u2665","\u2666","\u2660","\u2663"};
 	private static final int CARDWIDTH = 30;
 	private static final int CARDHEIGHT = 50;
