@@ -14,7 +14,7 @@ public class Deck {
 /**
  * Author: Aloysius Lim
  * Date Created: 8-28-18
- * Last Updated: 9-6-18
+ * Last Updated: 9-11-18
  */
 	
 	/**** SETTING CONSTANT ****/
@@ -40,7 +40,7 @@ public class Deck {
 				for (int rank = 0; rank < RANKS.length; rank++) {
 					int pos = 0;
 					if (CARDS.size()>0) {
-						rand.nextInt(CARDS.size()+1);
+						pos = rand.nextInt(CARDS.size()+1);
 					}
 					int x = rank*CARDWIDTH;
 					int y = suit*CARDHEIGHT;

@@ -7,7 +7,7 @@ public class CardStack {
 /**
  * Author: Aloysius Lim
  * Date Created: 9-6-18
- * Last Updated: 9-6-18
+ * Last Updated: 9-11-18
  */
 	
 	/**** Variables ****/
@@ -68,5 +68,15 @@ public class CardStack {
 	
 	public void clear() {
 		cards.clear();
+	}
+	 	
+	public Card getLast() {
+		int index = cards.size() - 1;
+		return cards.get(index);
+	}
+	
+	public void removeLast() {
+		int index = cards.size() - 1;
+		cards.remove(index);
 	}
 }

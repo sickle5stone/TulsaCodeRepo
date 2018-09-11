@@ -3,6 +3,9 @@ package aloysius.lim.BakersDozen;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
@@ -10,7 +13,7 @@ public class TablePanel extends JPanel{
 /**
  * Author: Aloysius Lim
  * Date Created: 8-30-18
- * Last Updated: 9-4-18
+ * Last Updated: 9-11-18
  */
 	
 	//Serialization
@@ -38,6 +41,12 @@ public class TablePanel extends JPanel{
 	private CardStack[] foundation = new CardStack[4];
 	private CardStack[] column = new CardStack[13];
 
+	//moving card
+	private Card movingCard;
+	private int mouseX;
+	private int mouseY;
+	private int fromCol = 0;
+	
 	//Constructor
 	public TablePanel() {
 		int x = FOUNDATIONX;
@@ -58,6 +67,16 @@ public class TablePanel extends JPanel{
 		
 		deck = new Deck();
 		deal();
+		
+		//mouseListener
+		addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				int x = e.getX();
+				int y = e.getY();
+				clicked(x,y);
+			}
+		});//end listener
+		
 	}
 	
 	public Dimension getPreferredSize() {
@@ -71,7 +90,11 @@ public class TablePanel extends JPanel{
 		for(int row = 0; row<4; row++){
 			for (int col=0; col< 13; col++) {
 				Card card = deck.deal();
-				column[col].add(card);
+				if (card.getValue()==12) {
+					column[col].addToBeginning(card);
+				}else {					
+					column[col].add(card);
+				}
 			}
 		}
 		repaint();
@@ -85,13 +108,40 @@ public class TablePanel extends JPanel{
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		//foundation cards
-		for (int i=0;i<4;i++) {
+		for (int i=0;i<foundation.length;i++) {
 			if (foundation[i].size() > 0) {
 				foundation[i].draw(g);
 			}else {
 				int x = foundation[i].getX();
 				int y = foundation[i].getY();
 				Card.drawOutline(g, x, y);
+			}
+		}
+		
+		//draw board
+		for (int i=0;i<column.length;i++) {
+			column[i].draw(g);
+		}
+		
+		//draw moving card
+		if (movingCard != null) {
+			movingCard.draw(g);
+		}
+	}
+	
+	//mouse clicked
+	private void clicked(int x,int y) {
+		movingCard = null;
+		for(int col = 0;col<13 && movingCard == null;col++) {
+			if (column[col].size()>0) {
+				Card card = column[col].getLast();
+				if (card.contains(x, y)) {
+					movingCard = card;
+					mouseX = x;
+					mouseY = y;
+					column[col].removeLast();
+					fromCol = col;
+				}
 			}
 		}
 	}

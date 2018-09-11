@@ -8,7 +8,7 @@ public class Card {
 /**
  * Author: Aloysius Lim
  * Date Created: 9-4-18
- * Last Updated: 9-4-18
+ * Last Updated: 9-11-18
  */
 	
 	/**** Variables ****/
@@ -64,11 +64,32 @@ public class Card {
 	
 	public void draw(Graphics g) {
 		g.drawImage(img, x, y, null);
+		drawOutline(g,x,y);
 	}
 	
 	public static void drawOutline(Graphics g, int x, int y) {
 		g.setColor(Color.BLACK);
 		g.drawRoundRect(x, y, width, height, 8, 8);
 	}
+	
+	public boolean contains(int pointX, int pointY) {
+		boolean contains = false;
+		if (pointX >= x && pointX <= x+width && pointY >= y && pointY <= y+height) {
+			contains = true;
+		}
+		return contains;
+	}
+	
+	public boolean isNear(int pointX, int pointY) {
+		boolean isNear = false;
+		int offsetX = width/2;
+		int offsetY = height;
+		if (pointX > x-offsetX && pointX < x+offsetX && pointY > y-offsetY && pointY > y+offsetY) {
+			isNear = true;
+		}
+		return isNear;
+	}
+	
+
 	
 }
