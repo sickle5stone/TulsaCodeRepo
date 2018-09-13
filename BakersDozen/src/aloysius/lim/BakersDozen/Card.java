@@ -8,7 +8,7 @@ public class Card {
 /**
  * Author: Aloysius Lim
  * Date Created: 9-4-18
- * Last Updated: 9-11-18
+ * Last Updated: 9-13-18
  */
 	
 	/**** Variables ****/
@@ -84,9 +84,17 @@ public class Card {
 		boolean isNear = false;
 		int offsetX = width/2;
 		int offsetY = height;
-		if (pointX > x-offsetX && pointX < x+offsetX && pointY > y-offsetY && pointY > y+offsetY) {
+		if (pointX > x-offsetX && pointX < x+offsetX && pointY > y-offsetY && pointY < y+offsetY) {
 			isNear = true;
 		}
+		return isNear;
+	}
+	
+	//is my card near another card
+	public boolean isNear(Card card) {
+		int pointX = card.getX();
+		int pointY = card.getY();
+		boolean isNear = isNear(pointX,pointY);
 		return isNear;
 	}
 	
