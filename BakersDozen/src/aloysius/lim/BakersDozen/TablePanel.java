@@ -6,6 +6,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
 
@@ -13,7 +15,7 @@ public class TablePanel extends JPanel{
 /**
  * Author: Aloysius Lim
  * Date Created: 8-30-18
- * Last Updated: 9-11-18
+ * Last Updated: 9-13-18
  */
 	
 	//Serialization
@@ -75,6 +77,21 @@ public class TablePanel extends JPanel{
 				int y = e.getY();
 				clicked(x,y);
 			}
+			
+			public void mouseReleased(MouseEvent e) {
+				int x = e.getX();
+				int y = e.getY();
+				released(x,y);
+			}
+		});//end listener
+		
+		addMouseMotionListener(new MouseMotionAdapter() {
+			public void mouseDragged(MouseEvent e) {
+				// TODO Auto-generated method stub
+				int x = e.getX();
+				int y = e.getY();
+				dragged(x,y);
+			}//end mouseDragged
 		});//end listener
 		
 	}
@@ -143,6 +160,84 @@ public class TablePanel extends JPanel{
 					fromCol = col;
 				}
 			}
+		}
+	}
+	
+	//mouse dragged
+	private void dragged(int x, int y) {
+		if(movingCard != null) {
+			int changeX = x - mouseX;
+			int changeY = y - mouseY;
+			movingCard.addToXY(changeX, changeY);
+			mouseX = x;
+			mouseY = y;
+			repaint();
+		}
+	}
+	
+	//mouse released
+	private void released(int x, int y) {
+		if (movingCard != null) {
+			boolean validMove = false;
+			
+			//play on a foundation
+			for (int i = 0; i < 4 && !validMove; i++) {
+				int foundationX = foundation[i].getX();
+				int foundationY = foundation[i].getY();
+				if (movingCard.isNear(foundationX,foundationY)) {
+					if (foundation[i].size() == 0) {
+						if (movingCard.getValue() == 0) {
+							validMove = true;
+							foundation[i].add(movingCard);
+							movingCard = null;
+						}//if movingCard value == 0
+					}//if foundation
+					else {
+						Card topCard = foundation[i].getLast();
+						if (movingCard.getSuit() == topCard.getSuit() &&
+								movingCard.getValue() == topCard.getValue()+1) {
+							validMove = true;
+							foundation[i].add(movingCard);
+							movingCard = null;
+						}
+					}
+				};//if isNear
+			}//end for
+			
+			//check other stacks
+			for (int i = 0; i<13 && !validMove ; i++) {
+				if (column[i].size()>0) {
+					Card card = column[i].getLast();
+					if (movingCard.isNear(card)
+							&& movingCard.getValue() == card.getValue()-1) {
+						validMove = true;
+						column[i].add(movingCard);
+						movingCard = null;
+					}
+				}//if column
+			}//for other stacks
+			
+			//check the abyss
+			if(!validMove) {
+				column[fromCol].add(movingCard);
+				movingCard = null;
+			}
+			
+			repaint();
+		}
+		
+	}
+	
+	private void isGameOver() {
+		boolean gameOver = true;
+		for (int i=0; i<4 && gameOver;i++) {
+			if (foundation[i].size()!=13) {
+				gameOver=false;
+			}
+		}
+		if(gameOver) {
+			String message = "You Win!";
+			System.out.println(message);
 		}
 	}
 	
