@@ -1,0 +1,96 @@
+<!-- !DOCTYPE declaration -->
+<!doctype html>
+<!-- open html element-->
+    <html lang="en">
+    <!-- open head element -->
+    <head>
+        <!-- meta charset declaration -->
+        <meta charset="utf-8">
+        <!-- meta viewport declaration -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap 4 CSS CDN link declaration -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- JQuery CDN script declaration -->
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <!-- Firebase CDN script declaration -->
+        <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase.js"></script>
+        
+        <!-- custom script declaration, your JS code goes here -->
+        <script>
+            // the provided Firebase config for accessing our Firebase NoSQL database
+            var config = {
+                apiKey: "AIzaSyBthC9BLzwfHrmp1xiFk1rglVDqYQ5rB-s",
+                authDomain: "cs-3033-fa18.firebaseapp.com",
+                databaseURL: "https://cs-3033-fa18.firebaseio.com",
+                projectId: "cs-3033-fa18",
+                storageBucket: "cs-3033-fa18.appspot.com",
+                messagingSenderId: "494659703474"
+            };
+            // initialize the firebase app
+            firebase.initializeApp(config);
+            // use JQuery to call your code after the document.ready function
+            $(function() {
+                // save the firebase database to a variable named database
+                var database = firebase.database();
+                // use database to access "departments/books"
+                database.ref("departments/books").once("value").then(function(snapshot){
+
+                    // save the snapshot value to a local variable named data
+                    var data = snapshot.val();
+                    // log the data
+                    console.log(data);
+                    // create an empty array named books
+                    var books = []
+                    // get all product names by using Object.keys, and iterate over with forEach
+                    Object.keys(data["products"]).forEach(function(key){
+                        // save book to a local variable named book
+                        var book = data["products"][key];
+                        // use JQuery to create an h1 element with the text of the book's name
+                        var bookElement = $("<h1 id='"+key+"'></h1>").text(book["name"]);
+                        // push this element to the array books
+                        books.push(bookElement);
+                    })
+                    // end forEach
+                    
+                    // use JQuery to create a div "row" element
+                    var row = $("<div class='row'></div>")
+                    // iterate over the books with a forEach
+                    books.forEach(function(book){
+                        // use JQuery to create a div "col" element
+                        var col = $("<div class='col'></div>");
+                        // append the book to the "col" element
+                        col.append(book);
+                        // append the "col" element to the "row" element
+                        row.append(col);
+                    })
+                    // end forEach
+
+                    // use JQuery to append the "row" element to the "container" element
+                    $(".container").append(row);
+                }).catch(function(reason){
+                    console.error(reason);
+                });
+                // end then
+            })
+            // end document.ready JQuery function
+        </script>
+        <!-- close script element above -->
+
+        <!-- title element -->
+        <title>Hello, world!</title>
+        
+    </head>        
+    <!-- close head element -->
+    
+    <!-- open body element -->
+    <body>
+        <!-- open div "container" -->
+        <div class='container'>
+            <!-- <h1>Hello, world!</h1> -->
+        </div>
+        <!-- close div "container" -->
+    </body>
+    <!-- close body element -->
+</html>
+<!-- close html element -->
