@@ -14,17 +14,18 @@ public class Deck {
 /**
  * Author: Aloysius Lim
  * Date Created: 9-9-18
- * Last Updated: 9-9-18
+ * Last Updated: 10-02-18
  */
 	
 	/**** SETTING CONSTANT ****/
-	private static final String[] RANKS = {"A","2","3","4","5","6","7","8","9","10","J","Q","K"};
+	private static final String[] RANKS = {"Q","A","2","3","4","5","6","7","8","9","10","J","K"};
 	private static final String[] SUITSYMBOLS = {"\u2665","\u2666","\u2660","\u2663"};
-	private static final int CARDWIDTH = 50;
-	private static final int CARDHEIGHT = 70;
+	private static final int CARDWIDTH = 80;
+	private static final int CARDHEIGHT = 140;
 	
 	private static final int[] VALUES = {0,1,2,3,4,5,6,7,8,9,10,11,12};
 	private static final String FILENAME = "cards.png";
+	private static final String BACKFACEFILENAME = "cardBack.png";
 	private static final ArrayList<Card> CARDS = new ArrayList<>();
 	
 	//Constructor
@@ -34,19 +35,23 @@ public class Deck {
 		
 		try {
 			InputStream input = getClass().getResourceAsStream(FILENAME);
+			InputStream backInput = getClass().getResourceAsStream(BACKFACEFILENAME);
+			
 			BufferedImage cardsImg = ImageIO.read(input);
+			BufferedImage cardBack = ImageIO.read(backInput);
 			
 			for (int suit = 0; suit < SUITSYMBOLS.length; suit++) {
 				for (int rank = 0; rank < RANKS.length; rank++) {
 					int pos = 0;
 					if (CARDS.size()>0) {
-						rand.nextInt(CARDS.size()+1);
+						pos = rand.nextInt(CARDS.size()+1);
 					}
 					int x = rank*CARDWIDTH;
 					int y = suit*CARDHEIGHT;
 					Image img = cardsImg.getSubimage(x, y, CARDWIDTH, CARDHEIGHT);
-					Card card = new Card(RANKS[rank],suit,VALUES[rank],img);
+					Card card = new Card(RANKS[rank],suit,VALUES[rank],img,cardBack);
 					CARDS.add(pos,card); //pos being index of new card
+//					System.out.println(card.getRank()+card.getValue());
 				}
 			}
 		} catch (IOException e) {
