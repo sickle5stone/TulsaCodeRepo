@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -21,13 +22,14 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.UIManager;
 
+import aloysius.lim.mycommonmethods.FileIO;
 import aloysius.lim.mycomponents.TitleLabel;
 
 public class CircleSolitaire extends JFrame {
 /**
  * Author: Aloysius Lim
  * Date Created: 9-9-18
- * Last Updated: 10-02-18
+ * Last Updated: 10-16-18
  */
 	
 	//Serialization of recreation
@@ -36,10 +38,12 @@ public class CircleSolitaire extends JFrame {
 	//Create table panel
 	private TablePanel tablePanel = new TablePanel();
 	private Font font = new Font(Font.DIALOG, Font.BOLD, 24);
+	private TimerPanel timerPanel = new TimerPanel(0, new Font(Font.DIALOG, Font.BOLD, 48));
+	private static final String BG_MUSIC = "Clippity-Clop.wav";
 	
 	//Constructor
 	public CircleSolitaire() {
-		
+		Clip clip = FileIO.playClip(this,BG_MUSIC,true);
 		showInstruction();
 		initGUI();
 		setTitle("CircleSolitaire");
@@ -122,9 +126,12 @@ public class CircleSolitaire extends JFrame {
 		newBTN.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				tablePanel.newGame();
+				timerPanel.reset();
 			}//actionPerformed
 		});
 		btnPanel.add(newBTN);
+		btnPanel.add(timerPanel);
+		timerPanel.reset();
 	}
 	
 	public static void main(String[] args) {

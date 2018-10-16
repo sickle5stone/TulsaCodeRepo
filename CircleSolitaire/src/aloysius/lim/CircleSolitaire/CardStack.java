@@ -7,7 +7,7 @@ public class CardStack {
 /**
  * Author: Aloysius Lim
  * Date Created: 9-9-18
- * Last Updated: 10-02-18
+ * Last Updated: 10-16-18
  */
 	
 	/**** Variables ****/
@@ -23,6 +23,7 @@ public class CardStack {
 		this.stackX = stackX;
 		this.stackY = stackY;
 		this.overlap = overlap;
+		completedCards = 0;
 	}
 	
 	//check whether there are cards left inside the stack (there should only be 4 completed cards in a foundation stack)
@@ -86,6 +87,10 @@ public class CardStack {
 
 	public int completedCards() {
 		return completedCards;
+	}
+	
+	public void resetCompletedCards() {
+		completedCards = 0;
 	}
 	
 	public int size() {

@@ -9,14 +9,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 
+import javax.sound.sampled.Clip;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+
+import aloysius.lim.mycommonmethods.FileIO;
 
 public class TablePanel extends JPanel{
 /**
  * Author: Aloysius Lim
  * Date Created: 9-9-18
- * Last Updated: 10-02-18
+ * Last Updated: 10-16-18
  */
 	
 	//Serialization
@@ -39,6 +42,15 @@ public class TablePanel extends JPanel{
 	
 	//Declare the number of cards inside a pile
 	private static final int CARDPERPILESTACK = 4;
+	
+	private static final String CLICKSOUND = "clickclick.wav";
+	
+	/** Title: Ta Da & Gun Loud
+	Uploaded: 09.14.09 
+	License: Attribution 3.0 
+	Recorded by Mike Koenig **/
+	private static final String WINSOUND = "TaDa_SoundBible.com_1884170640.wav";
+	private static final String LOSESOUND = "Gun_loud_soundmaster_88363983.wav";
 	
 	private Deck deck;
 	private CardStack[] pile = new CardStack[13];
@@ -134,6 +146,7 @@ public class TablePanel extends JPanel{
 		for(int row = 0; row<pile.length; row++){
 			for (int col=0; col< 4; col++) {
 				pile[row].clear();
+				pile[row].resetCompletedCards();
 			}
 		}
 		
@@ -191,8 +204,9 @@ public class TablePanel extends JPanel{
 	}
 	
 	//mouse clicked
-	private void clicked(int x,int y) {
+	protected void clicked(int x,int y) {
 		movingCard = null;
+		Clip clip = FileIO.playClip(this,CLICKSOUND,false);
 		for(int col = 0;col<13 && movingCard == null;col++) {
 			if (pile[col].size()>0 && focusPile == col) {
 				Card card = pile[col].getLast();
@@ -245,19 +259,20 @@ public class TablePanel extends JPanel{
 								//check for completed stacks
 								int findNext = 0;
 								if (pile[j].completedCards() == CARDPERPILESTACK) {
-									isGameOver();
-									//offset which to jump to
-									//check whether the next following stacks are completed
-									//only focus on the next available non-completed stack
-									if (pile[j].cardsLeft()) {
-										focusPile = j;
-									}else {
-//										if (j == 12) { j = 0; }; // force game to continue. USED TO TEST WIN CONDITION
-										while(j+findNext < pile.length && pile[j+findNext].completedCards() == CARDPERPILESTACK) {
-											findNext += 1;
+									if (!isGameOver()) {
+										//offset which to jump to
+										//check whether the next following stacks are completed
+										//only focus on the next available non-completed stack
+										if (pile[j].cardsLeft()) {
+											focusPile = j;
+										}else {
+	//										if (j == 12) { j = 0; }; // force game to continue. USED TO TEST WIN CONDITION
+											while(j+findNext < pile.length && pile[j+findNext].completedCards() == CARDPERPILESTACK) {
+												findNext += 1;
+											}
+											focusPile = j+findNext;
+											
 										}
-										focusPile = j+findNext;
-										
 									}
 								}else {
 									focusPile = j;
@@ -278,7 +293,7 @@ public class TablePanel extends JPanel{
 		}
 	}//end released
 	
-	private void isGameOver() {
+	protected boolean isGameOver() {
 		boolean gameWon = true;
 		boolean gameLost = false;
 		for (int i=0;i<pile.length;i++) {
@@ -290,6 +305,8 @@ public class TablePanel extends JPanel{
 			}
 		}
 		if (gameLost) {
+			FileIO.playClip(this, LOSESOUND,false);
+			
 			String message = "You Lose! Do you want to play again?";
 			
 			//dialog for play again
@@ -297,13 +314,16 @@ public class TablePanel extends JPanel{
 			
 			//check user response
 			if(option==JOptionPane.YES_OPTION) {
-				focusPile = 12;
 				newGame();
+				option = 1;
+				return true;
 			}else {
 				System.exit(0);
 			}
 		}
 		if (gameWon) {
+			FileIO.playClip(this, WINSOUND,false);
+			
 			String message = "You Win! Do you want to play again?";
 			
 			//dialog for play again
@@ -311,12 +331,14 @@ public class TablePanel extends JPanel{
 			
 			//check user response
 			if(option==JOptionPane.YES_OPTION) {
-				focusPile = 12;
 				newGame();
+				option = 1;
+				return true;
 			}else {
 				System.exit(0);
 			}
 		}
+		return false;
 	}
 	
 }
