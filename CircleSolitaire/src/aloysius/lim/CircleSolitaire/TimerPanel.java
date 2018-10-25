@@ -94,14 +94,21 @@ public class TimerPanel extends JPanel implements Runnable{
 		}
 	}
 	
-	public long getTime() {
-		return time;
+	public static String getTime() {
+		long h = time / 3600;
+		long m = (time/60) % 60;
+		long s = time % 60;
+		return String.format("%02d:%02d:%02d",h,m,s);
 	}
 
 	public void reset() {
 		// TODO Auto-generated method stub
 		time = -1;
 		start();
+	}
+	
+	public static void resetTime() {
+		time = -1;
 	}
 	
 }

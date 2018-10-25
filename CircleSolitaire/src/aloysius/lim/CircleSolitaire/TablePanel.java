@@ -266,7 +266,8 @@ public class TablePanel extends JPanel{
 										if (pile[j].cardsLeft()) {
 											focusPile = j;
 										}else {
-	//										if (j == 12) { j = 0; }; // force game to continue. USED TO TEST WIN CONDITION
+											if (j == 12) {  j = 0;}; // force game to continue. USED TO TEST WIN CONDITION
+											
 											while(j+findNext < pile.length && pile[j+findNext].completedCards() == CARDPERPILESTACK) {
 												findNext += 1;
 											}
@@ -304,11 +305,15 @@ public class TablePanel extends JPanel{
 				gameLost = true;
 			}
 		}
+		
+		//		gameWon = true; //test win/lose condition
 		if (gameLost) {
+			//Play lost sound clip
 			FileIO.playClip(this, LOSESOUND,false);
+			//Stop timer temporarily for end of game
+			CircleSolitaire.tempStop();
 			
-			String message = "You Lose! Do you want to play again?";
-			
+			String message = "You Lose! Do you want to play again? \n\n  Elapsed Game Time: " + TimerPanel.getTime();
 			//dialog for play again
 			int option = JOptionPane.showConfirmDialog(this, message, "Play again?", JOptionPane.YES_NO_OPTION);
 			
@@ -316,15 +321,19 @@ public class TablePanel extends JPanel{
 			if(option==JOptionPane.YES_OPTION) {
 				newGame();
 				option = 1;
+				repaint();
 				return true;
 			}else {
 				System.exit(0);
 			}
 		}
 		if (gameWon) {
+			//Play winning sound clip
 			FileIO.playClip(this, WINSOUND,false);
+			//Stop timer temporarily for end of game
+			CircleSolitaire.tempStop();
 			
-			String message = "You Win! Do you want to play again?";
+			String message = "You Win! Do you want to play again? \n\n  Elapsed Game Time: " + TimerPanel.getTime();
 			
 			//dialog for play again
 			int option = JOptionPane.showConfirmDialog(this, message, "Play again?", JOptionPane.YES_NO_OPTION);

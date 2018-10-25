@@ -118,4 +118,8 @@ public class CardStack {
 		int index = cards.size() - 1;
 		cards.remove(index);
 	}
+	
+	public void forceWin() {
+		completedCards = 4;
+	}
 }

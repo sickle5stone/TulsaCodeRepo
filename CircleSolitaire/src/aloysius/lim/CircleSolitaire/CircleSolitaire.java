@@ -38,7 +38,7 @@ public class CircleSolitaire extends JFrame {
 	//Create table panel
 	private TablePanel tablePanel = new TablePanel();
 	private Font font = new Font(Font.DIALOG, Font.BOLD, 24);
-	private TimerPanel timerPanel = new TimerPanel(0, new Font(Font.DIALOG, Font.BOLD, 48));
+	private static TimerPanel timerPanel = new TimerPanel(0, new Font(Font.DIALOG, Font.BOLD, 48));
 	private static final String BG_MUSIC = "Clippity-Clop.wav";
 	
 	//Constructor
@@ -150,6 +150,14 @@ public class CircleSolitaire extends JFrame {
 		});
 	}
 	
+	//static methods for TimerPanel to reset timer & stop timer
+	public static void reset() {
+		timerPanel.reset();
+	}
+	
+	public static void tempStop() {
+		timerPanel.stop();
+	}
 	
 	
 }
