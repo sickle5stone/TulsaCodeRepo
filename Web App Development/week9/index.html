@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+    <!-- Head element containing meta tags, CSS links, and title -->
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+        <!-- Title element -->
+        <title>TODO MVC</title>
+    </head>
+    <!-- End head -->
+
+    <!-- Body element containing the main container and JS scripts -->
+    <body>
+        <!-- Main container for the view -->
+        <div id="view" class="container"></div>
+
+        <!-- JS scripts -->
+        <!-- JQuery min build, don't use slim build from Bootstrap -->
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <!-- Popper.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <!-- Bootstrap JS -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+        <!-- Mustache provided via Express -->
+        <script src="/mustache.js"></script>
+        <!-- App JS entry point provided via Express -->
+        <script src="/app/app.js"></script>
+
+        <!-- HTML template to be dynamically rendered by Mustache -->
+        <!-- TODO: copy the li template from view.mjs into this template -->
+        <script id="template" type="x-tmpl-mustache">
+            <li class="list-group-item">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <!-- TODO: create an input checkbox whose id=check{{id}} -->
+                            <!-- TODO: if the todo has been marked done then the checkbox should be checked -->
+                            <input id=check{{id}} type="checkbox" {{#done}}checked{{/done}}></input>
+                        </div>
+                    </div>
+                    <!-- TODO: set the id of this div so that id={{id}} -->
+                    <div class="form-control" id={{id}}>
+                        <!-- TODO: if the todo has been marked done, then the description of the TODO should be striked -->
+                        {{#done}}
+                            <strike>{{desc}}</strike>
+                        {{/done}}
+                        {{^done}}
+                            {{desc}}
+                        {{/done}}
+                    </div>
+                </div>
+            </li>
+        </script>
+
+    </body>
+    <!-- End body -->
+</html>
+<!-- End html -->
